@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\User;
+use App\Models\Department;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -14,7 +15,11 @@ class EmployeeFactory extends Factory
     {
         return [
             'user_id' => User::factory(),
-            'name' => fake()->name(),
+            'emp_no' => fake()->unique()->bothify('EMP###'),
+            'department_id' => Department::factory(),
+            'position' => fake()->jobTitle(),
+            'hire_date' => fake()->date(),
+            'status' => 'active',
         ];
     }
 }
