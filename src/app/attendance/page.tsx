@@ -1,5 +1,6 @@
 'use client';
 import Shell from '@/components/Shell';
+import State from '@/components/State';
 import { useQuery } from '@tanstack/react-query';
 import { api } from '@/lib/axios';
 import dayjs from 'dayjs';
@@ -22,13 +23,13 @@ export default function MyAttendancePage(){
     <Shell title="My Attendance">
       <div className="space-y-3">
         <div className="flex flex-wrap gap-2">
-          <input type="date" value={from} onChange={e=>setFrom(e.target.value)} className="border rounded px-3 py-2" />
-          <input type="date" value={to} onChange={e=>setTo(e.target.value)} className="border rounded px-3 py-2" />
-          <button onClick={()=>{ setPage(1); refetch(); }} className="px-4 py-2 rounded border">Filter</button>
+          <input type="date" value={from} onChange={e=>setFrom(e.target.value)} className="border rounded-xl px-3 py-2" />
+          <input type="date" value={to} onChange={e=>setTo(e.target.value)} className="border rounded-xl px-3 py-2" />
+          <button onClick={()=>{ setPage(1); refetch(); }} className="px-4 py-2 rounded-xl border">Filter</button>
         </div>
 
-        {isFetching ? <div>Loading...</div> : (
-          <div className="overflow-x-auto border rounded-xl">
+        {isFetching ? <State type="loading" /> : (
+          <div className="overflow-x-auto border rounded-xl shadow-sm">
             <table className="w-full text-sm">
               <thead>
                 <tr className="bg-neutral-50">
@@ -47,16 +48,20 @@ export default function MyAttendancePage(){
                     <td className="p-2">{row.status}</td>
                   </tr>
                 ))}
-                {!data?.data?.length && <tr><td colSpan={4} className="p-3 text-center text-neutral-500">No data</td></tr>}
+                {!data?.data?.length && (
+                  <tr>
+                    <td colSpan={4}><State type="empty" /></td>
+                  </tr>
+                )}
               </tbody>
             </table>
           </div>
         )}
 
         <div className="flex items-center gap-2">
-          <button disabled={page<=1} onClick={()=>setPage(p=>p-1)} className="px-3 py-1.5 rounded border disabled:opacity-50">Prev</button>
+          <button disabled={page<=1} onClick={()=>setPage(p=>p-1)} className="px-3 py-1.5 rounded-xl border disabled:opacity-50">Prev</button>
           <span>Page {data?.current_page || page}</span>
-          <button disabled={!data?.next_page_url} onClick={()=>setPage(p=>p+1)} className="px-3 py-1.5 rounded border disabled:opacity-50">Next</button>
+          <button disabled={!data?.next_page_url} onClick={()=>setPage(p=>p+1)} className="px-3 py-1.5 rounded-xl border disabled:opacity-50">Next</button>
         </div>
       </div>
     </Shell>
