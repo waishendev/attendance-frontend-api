@@ -40,8 +40,8 @@ class LeavesControllerTest extends TestCase
         $employee = Employee::factory()->create();
         $payload = [
             'type' => 'annual',
-            'start_at' => now()->toDateString(),
-            'end_at' => now()->addDay()->toDateString(),
+            'start_at' => now()->toDateTimeString(),
+            'end_at' => now()->addDay()->toDateTimeString(),
             'reason' => 'vacation',
         ];
 

@@ -14,13 +14,13 @@ class LeaveRequest extends Model
         'type',
         'start_at',
         'end_at',
-        'reason',
         'status',
+        'reason',
     ];
 
     protected $casts = [
-        'start_at' => 'date',
-        'end_at' => 'date',
+        'start_at' => 'datetime',
+        'end_at' => 'datetime',
     ];
 
     public function employee()

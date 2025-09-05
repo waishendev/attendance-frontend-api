@@ -12,9 +12,9 @@ class AttendanceLog extends Model
     protected $fillable = [
         'employee_id',
         'work_date',
-        'status',
         'check_in_at',
         'check_out_at',
+        'status',
     ];
 
     protected $casts = [
