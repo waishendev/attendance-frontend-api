@@ -1,5 +1,6 @@
 'use client';
 import Shell from '@/components/Shell';
+import State from '@/components/State';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { api } from '@/lib/axios';
 import { useState } from 'react';
@@ -39,7 +40,7 @@ export default function MyLeavesPage(){
     <Shell title="My Leaves">
       <div className="space-y-4">
         <div className="flex flex-wrap gap-2">
-          <select value={status} onChange={e=>{setStatus(e.target.value); setPage(1);}} className="border rounded px-3 py-2">
+          <select value={status} onChange={e=>{setStatus(e.target.value); setPage(1);}} className="border rounded-xl px-3 py-2">
             <option value="">All</option>
             <option value="pending">Pending</option>
             <option value="approved">Approved</option>
@@ -47,29 +48,29 @@ export default function MyLeavesPage(){
           </select>
         </div>
 
-        <div className="border rounded-xl p-4 space-y-2">
+        <div className="border rounded-xl p-4 space-y-2 shadow-sm">
           <div className="font-medium">New Leave</div>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-2">
-            <select value={type} onChange={e=>setType(e.target.value)} className="border rounded px-3 py-2">
+            <select value={type} onChange={e=>setType(e.target.value)} className="border rounded-xl px-3 py-2">
               <option value="annual">Annual</option>
               <option value="sick">Sick</option>
               <option value="unpaid">Unpaid</option>
               <option value="other">Other</option>
             </select>
-            <input value={startAt} onChange={e=>setStartAt(e.target.value)} className="border rounded px-3 py-2" placeholder="YYYY-MM-DD HH:mm:ss"/>
-            <input value={endAt} onChange={e=>setEndAt(e.target.value)} className="border rounded px-3 py-2" placeholder="YYYY-MM-DD HH:mm:ss"/>
-            <input value={reason} onChange={e=>setReason(e.target.value)} className="border rounded px-3 py-2" placeholder="Reason(optional)"/>
+            <input value={startAt} onChange={e=>setStartAt(e.target.value)} className="border rounded-xl px-3 py-2" placeholder="YYYY-MM-DD HH:mm:ss"/>
+            <input value={endAt} onChange={e=>setEndAt(e.target.value)} className="border rounded-xl px-3 py-2" placeholder="YYYY-MM-DD HH:mm:ss"/>
+            <input value={reason} onChange={e=>setReason(e.target.value)} className="border rounded-xl px-3 py-2" placeholder="Reason(optional)"/>
           </div>
           <button
-            className="px-4 py-2 rounded bg-black text-white"
+            className="px-4 py-2 rounded-xl bg-black text-white"
             onClick={()=>createLeave.mutate({ type, start_at: startAt, end_at: endAt, reason })}
           >
             Submit
           </button>
         </div>
 
-        {isFetching ? <div>Loading...</div> : (
-          <div className="overflow-x-auto border rounded-xl">
+        {isFetching ? <State type="loading" /> : (
+          <div className="overflow-x-auto border rounded-xl shadow-sm">
             <table className="w-full text-sm">
               <thead>
                 <tr className="bg-neutral-50">
@@ -91,21 +92,25 @@ export default function MyLeavesPage(){
                     <td className="p-2">{row.status}</td>
                     <td className="p-2">
                       {row.status==='pending' ? (
-                        <button onClick={()=>cancelLeave.mutate(row.id)} className="px-3 py-1.5 rounded border">Cancel</button>
+                        <button onClick={()=>cancelLeave.mutate(row.id)} className="px-3 py-1.5 rounded-xl border">Cancel</button>
                       ) : <span className="text-neutral-400">-</span>}
                     </td>
                   </tr>
                 ))}
-                {!data?.data?.length && <tr><td colSpan={6} className="p-3 text-center text-neutral-500">No data</td></tr>}
+                {!data?.data?.length && (
+                  <tr>
+                    <td colSpan={6}><State type="empty" /></td>
+                  </tr>
+                )}
               </tbody>
             </table>
           </div>
         )}
 
         <div className="flex items-center gap-2">
-          <button disabled={page<=1} onClick={()=>setPage(p=>p-1)} className="px-3 py-1.5 rounded border disabled:opacity-50">Prev</button>
+          <button disabled={page<=1} onClick={()=>setPage(p=>p-1)} className="px-3 py-1.5 rounded-xl border disabled:opacity-50">Prev</button>
           <span>Page {data?.current_page || page}</span>
-          <button disabled={!data?.next_page_url} onClick={()=>setPage(p=>p+1)} className="px-3 py-1.5 rounded border disabled:opacity-50">Next</button>
+          <button disabled={!data?.next_page_url} onClick={()=>setPage(p=>p+1)} className="px-3 py-1.5 rounded-xl border disabled:opacity-50">Next</button>
         </div>
       </div>
     </Shell>

@@ -1,5 +1,6 @@
 'use client';
 import Shell from '@/components/Shell';
+import State from '@/components/State';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { api } from '@/lib/axios';
 import dayjs from 'dayjs';
@@ -32,16 +33,16 @@ export default function HomePage(){
     <Shell title="Home">
       <div className="space-y-4">
         <div className="text-lg font-semibold">Today: {today}</div>
-        {isFetching ? <div>Loading...</div> : (
-          <div className="space-y-2 border rounded-xl p-4">
+        {isFetching ? <State type="loading" /> : (
+          <div className="space-y-2 border rounded-xl p-4 shadow-sm">
             <div>Check In: <b>{log?.check_in_at || '-'}</b></div>
             <div>Check Out: <b>{log?.check_out_at || '-'}</b></div>
             <div>Status: <b>{log?.status || 'N/A'}</b></div>
           </div>
         )}
         <div className="flex gap-2">
-          <button onClick={()=>checkIn.mutate()} className="px-4 py-2 rounded bg-black text-white">Check In</button>
-          <button onClick={()=>checkOut.mutate()} className="px-4 py-2 rounded border">Check Out</button>
+          <button onClick={()=>checkIn.mutate()} className="px-4 py-2 rounded-xl bg-black text-white">Check In</button>
+          <button onClick={()=>checkOut.mutate()} className="px-4 py-2 rounded-xl border">Check Out</button>
         </div>
       </div>
     </Shell>

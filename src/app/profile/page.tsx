@@ -1,5 +1,6 @@
 'use client';
 import Shell from '@/components/Shell';
+import State from '@/components/State';
 import { useQuery } from '@tanstack/react-query';
 import { api } from '@/lib/axios';
 
@@ -11,8 +12,8 @@ export default function ProfilePage(){
 
   return (
     <Shell title="Profile">
-      {isFetching ? <div>Loading...</div> : (
-        <div className="space-y-2 border rounded-xl p-4">
+      {isFetching ? <State type="loading" /> : (
+        <div className="space-y-2 border rounded-xl p-4 shadow-sm">
           <div><b>Name:</b> {data?.name}</div>
           <div><b>Email:</b> {data?.email}</div>
           <div className="text-sm text-neutral-500">This data comes from `/auth/me`</div>
